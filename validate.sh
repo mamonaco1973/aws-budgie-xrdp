@@ -9,7 +9,7 @@
 #   - AWS CLI installed and configured with credentials/permissions.
 #   - Instances must be tagged with:
 #       * Name = windows-ad-instance
-#       * Name = mate-instance
+#       * Name = budgie-instance
 # --------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------
@@ -35,12 +35,12 @@ fi
 # Lookup Linux AD Instance
 # --------------------------------------------------------------------------------------------------
 linux_dns=$(aws ec2 describe-instances \
-  --filters "Name=tag:Name,Values=mate-instance" \
+  --filters "Name=tag:Name,Values=budgie-instance" \
   --query 'Reservations[].Instances[].PublicDnsName' \
   --output text)
 
 if [ -z "$linux_dns" ]; then
-  echo "WARN: No Linux AD instance found with tag Name=mate-instance"
+  echo "WARN: No Linux AD instance found with tag Name=budgie-instance"
 else
-  echo "NOTE: MATE Desktop Instance FQDN: $(echo $linux_dns | xargs)"
+  echo "NOTE: BUDGIE Desktop Instance FQDN: $(echo $linux_dns | xargs)"
 fi
