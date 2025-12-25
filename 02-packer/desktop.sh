@@ -7,12 +7,13 @@ set -euo pipefail
 # Description:
 #   Creates trusted symlinks for selected applications inside /etc/skel/Desktop.
 #   These symlinks ensure that all newly created users receive desktop icons
-#   without the MATE "untrusted application launcher" warning dialog.
+#   without the "untrusted application launcher" warning dialog in Budgie.
 #
 # Notes:
-#   - Works for XFCE, MATE, and most desktop environments using .desktop files.
+#   - Designed for Budgie on Ubuntu 24.04 (X11).
+#   - Budgie uses Nautilus-based desktop handling via budgie-desktop-view.
 #   - Only affects *new* users created after this script runs.
-#   - Symlinks are used instead of copied launchers to preserve trust flags.
+#   - Symlinks preserve launcher trust metadata.
 # ================================================================================
 
 # ================================================================================
@@ -23,7 +24,7 @@ APPS=(
   /usr/share/applications/firefox.desktop
   /usr/share/applications/code.desktop
   /usr/share/applications/postman.desktop
-  /usr/share/applications/mate-terminal.desktop
+  /usr/share/applications/gnome-terminal.desktop
   /usr/share/applications/onlyoffice-desktopeditors.desktop
 )
 
@@ -50,9 +51,10 @@ for src in "${APPS[@]}"; do
   fi
 done
 
-echo "NOTE: All new users will receive these desktop icons without trust prompts."
+echo "NOTE: New Budgie users will receive these desktop icons without prompts."
 
-rm -f -r /etc/xdg/autostart/mate-power-manager.desktop
-
+# ================================================================================
+# Step 3: Disable apport crash reporting (desktop image hygiene)
+# ================================================================================
 sudo sed -i 's/enabled=1/enabled=0/' /etc/default/apport
 sudo systemctl disable --now apport.service

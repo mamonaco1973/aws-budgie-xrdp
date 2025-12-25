@@ -3,7 +3,7 @@
 # AD + Server Infrastructure Teardown Script
 # ================================================================================================
 # Description:
-#   Automates a controlled teardown of AWS infrastructure:
+#   Autobudgies a controlled teardown of AWS infrastructure:
 #     1. Removes EC2 server instances created by Terraform.
 #     2. Deletes Packer-built AMIs and snapshots matching project patterns.
 #     3. Removes AD Domain Controller, deletes AD secrets, and runs AD destroy.
@@ -44,14 +44,14 @@ cd .. || exit                           # Return to repo root
 # Phase 2: Deregister AMIs and delete snapshots
 # ------------------------------------------------------------------------------------------------
 # This phase deletes all project AMIs, including those created by Packer.
-# AMIs named with the MATE_ami* pattern are discovered and removed. Any
+# AMIs named with the BUDGIE_ami* pattern are discovered and removed. Any
 # snapshots referenced by these AMIs are also deleted to prevent leaks.
 # ------------------------------------------------------------------------------------------------
 echo "NOTE: Deregistering project AMIs and deleting snapshots..."
 
 for ami_id in $(aws ec2 describe-images \
     --owners self \
-    --filters "Name=name,Values=mate_ami*" \
+    --filters "Name=name,Values=budgie_ami*" \
     --query "Images[].ImageId" \
     --output text); do
 
