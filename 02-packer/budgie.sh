@@ -43,3 +43,12 @@ sudo apt-get install -y \
 sudo apt purge -y libreoffice*
 sudo apt autoremove -y
 
+# ================================================================================
+# Step 5: Remove software center and related package management tools
+# ================================================================================
+
+sudo apt purge -y \
+  gnome-software-plugin-snap \
+  gnome-software-plugin-flatpak \
+  packagekit \
+  fwupd

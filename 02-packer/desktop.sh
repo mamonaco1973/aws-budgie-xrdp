@@ -60,3 +60,8 @@ echo "NOTE: New Budgie users will receive these desktop icons without prompts."
 # ================================================================================
 sudo sed -i 's/enabled=1/enabled=0/' /etc/default/apport
 sudo systemctl disable --now apport.service
+
+# ================================================================================
+# Step 4: Turn off animations - don't work very well with XRDP
+# ================================================================================
+
