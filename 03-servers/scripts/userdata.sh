@@ -237,6 +237,10 @@ git clone https://github.com/mamonaco1973/aws-mate-xrdp.git
 chmod -R 775 aws-mate-xrdp
 chgrp -R mcloud-users aws-mate-xrdp
 
+git clone https://github.com/mamonaco1973/aws-budgie-xrdp.git
+chmod -R 775 aws-budgie-xrdp
+chgrp -R mcloud-users aws-budgie-xrdp
+
 git clone https://github.com/mamonaco1973/aws-setup.git
 chmod -R 775 aws-setup
 chgrp -R mcloud-users aws-setup
