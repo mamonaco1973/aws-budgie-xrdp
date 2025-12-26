@@ -61,7 +61,25 @@ echo "NOTE: New Budgie users will receive these desktop icons without prompts."
 sudo sed -i 's/enabled=1/enabled=0/' /etc/default/apport
 sudo systemctl disable --now apport.service
 
-# ================================================================================
-# Step 4: Turn off animations - don't work very well with XRDP
-# ================================================================================
+# ==============================================================================
+# Step 4: Disable animations for XRDP stability (system-wide + locked)
+# ==============================================================================
 
+echo "NOTE: Disabling GNOME/Budgie animations via dconf..."
+
+sudo mkdir -p /etc/dconf/db/local.d
+sudo tee /etc/dconf/db/local.d/00-disable-animations >/dev/null <<'EOF'
+[org/gnome/desktop/interface]
+enable-animations=false
+EOF
+
+sudo dconf update
+
+sudo mkdir -p /etc/dconf/db/local.d/locks
+sudo tee /etc/dconf/db/local.d/locks/disable-animations >/dev/null <<'EOF'
+/org/gnome/desktop/interface/enable-animations
+EOF
+
+sudo dconf update
+
+echo "NOTE: Provisioning complete."
