@@ -35,3 +35,11 @@ sudo apt-get install -y \
   gnome-terminal \
   xdg-utils \
   dbus-x11
+
+# ================================================================================
+# Step 4: Remove LibreOffice since it doesn't work well with XRDP sessions
+# ================================================================================
+
+sudo apt purge -y libreoffice*
+sudo apt autoremove -y
+

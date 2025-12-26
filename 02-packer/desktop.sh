@@ -24,8 +24,8 @@ APPS=(
   /usr/share/applications/firefox.desktop
   /usr/share/applications/code.desktop
   /usr/share/applications/postman.desktop
-  /usr/share/applications/gnome-terminal.desktop
   /usr/share/applications/onlyoffice-desktopeditors.desktop
+  /usr/share/applications/org.gnome.Terminal.desktop
 )
 
 SKEL_DESKTOP="/etc/skel/Desktop"
@@ -39,13 +39,15 @@ mkdir -p "$SKEL_DESKTOP"
 # ================================================================================
 # Step 2: Create trusted symlinks for all selected applications
 # ================================================================================
-echo "NOTE: Creating trusted symlinks in /etc/skel/Desktop..."
+echo "NOTE: Creating trusted desktop files in /etc/skel/Desktop..."
 
 for src in "${APPS[@]}"; do
   if [[ -f "$src" ]]; then
     filename=$(basename "$src")
-    ln -sf "$src" "$SKEL_DESKTOP/$filename"
-    echo "NOTE: Added $filename (trusted symlink)"
+    cp "$src" "$SKEL_DESKTOP/$filename"
+    chmod +x "$SKEL_DESKTOP/$filename"
+    sed -i '1s|^|#!/usr/bin/env xdg-open\n|' "$SKEL_DESKTOP/$filename"
+    echo "NOTE: Added $filename (copied) to /etc/skel/Desktop"
   else
     echo "WARNING: $src not found, skipping"
   fi

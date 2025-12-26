@@ -42,5 +42,5 @@ linux_dns=$(aws ec2 describe-instances \
 if [ -z "$linux_dns" ]; then
   echo "WARN: No Linux AD instance found with tag Name=budgie-instance"
 else
-  echo "NOTE: BUDGIE Desktop Instance FQDN: $(echo $linux_dns | xargs)"
+  echo "NOTE: Budgie Desktop Instance FQDN: $(echo $linux_dns | xargs)"
 fi
