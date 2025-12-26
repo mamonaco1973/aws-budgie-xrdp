@@ -64,22 +64,38 @@ sudo systemctl disable --now apport.service
 # ==============================================================================
 # Step 4: Disable animations for XRDP stability (system-wide + locked)
 # ==============================================================================
+echo "NOTE: Disabling Budgie animations via dconf (system-wide, locked)..."
 
-echo "NOTE: Disabling GNOME/Budgie animations via dconf..."
+# ------------------------------------------------------------------------------
+# Dconf profile: local system database (safe to create if not present)
+# ------------------------------------------------------------------------------
+sudo mkdir -p /etc/dconf/profile
+sudo tee /etc/dconf/profile/user >/dev/null <<'EOF'
+user-db:user
+system-db:local
+EOF
 
+# ------------------------------------------------------------------------------
+# System-wide defaults
+# ------------------------------------------------------------------------------
 sudo mkdir -p /etc/dconf/db/local.d
 sudo tee /etc/dconf/db/local.d/00-disable-animations >/dev/null <<'EOF'
 [org/gnome/desktop/interface]
 enable-animations=false
 EOF
 
-sudo dconf update
-
+# ------------------------------------------------------------------------------
+# Locks (prevent users from changing the value)
+# ------------------------------------------------------------------------------
 sudo mkdir -p /etc/dconf/db/local.d/locks
 sudo tee /etc/dconf/db/local.d/locks/disable-animations >/dev/null <<'EOF'
 /org/gnome/desktop/interface/enable-animations
 EOF
 
+# ------------------------------------------------------------------------------
+# Compile dconf databases
+# ------------------------------------------------------------------------------
 sudo dconf update
+
 
 echo "NOTE: Provisioning complete."
